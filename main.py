@@ -1,5 +1,14 @@
 import numpy as np
 import pandas as pd
+from os import listdir
+from os.path import isfile, join
+
+IN_PATH = '../input/001_cmp_picking'
+OUT_PATH = '../output/001_zomf_corr'
+
+
+def create_file_list(path):
+    return [f for f in listdir(path) if isfile(join(path, f))]
 
 
 def to_zomf_corridor(input_name, output_name, save_header, max_angle, corridor_width):
@@ -12,14 +21,12 @@ def to_zomf_corridor(input_name, output_name, save_header, max_angle, corridor_w
 
 
 def run():
-    input_name = 'cmp_vel.corr'
-    output_name = 'zomf.corr'
     save_header = 'XCoord	YCoord	V	A	T	DeltaV	DeltaA'
     max_angle = 1.55334
     corridor_width = 500
-    to_zomf_corridor(input_name, output_name, save_header, max_angle, corridor_width)
+    for name in create_file_list(IN_PATH):
+        to_zomf_corridor(join(IN_PATH, name), join(OUT_PATH, name), save_header, max_angle, corridor_width)
 
 
 if __name__ == '__main__':
     run()
-
